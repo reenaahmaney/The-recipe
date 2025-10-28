@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What's New - The Recipe</title>
+    <style>
+      /* CSS Variables for Colors */
+      :root {
+        --primary-bg: #f8e7e9; /* Pale Pink Background */
+        --header-bg: #f3c3ce; /* Slightly lighter pink for header/cards */
+        --text-dark: #333333;
+        --text-light: #666666;
+        --accent-pink: #ff8fa4; /* Soft Pink Accent */
+      }
+
+      /* 1. General Styles & Body */
+      body {
+        background-color: var(--primary-bg);
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        color: var(--text-dark);
+        padding-top: 60px; /* Space for the fixed header */
+      }
+
+      /* 2. Header and Navigation */
+      .header {
+        position: fixed; /* Keeps the header visible at the top */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: var(--header-bg);
+        border-bottom: 1px solid var(--accent-pink);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        box-sizing: border-box;
+        z-index: 1000;
+      }
+
+      .logo-small {
+        height: 100px; /* Smaller logo for the navigation bar */
+        margin-right: 20px;
+      }
+
+      /* Navigation Links */
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        flex-grow: 1; /* Allows links to push search to the right */
+      }
+
+      .nav-links a {
+        font-weight: bold;
+        color: var(--text-dark);
+        padding: 5px 0;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--accent-pink);
+      }
+
+      /* Search Bar */
+      .search-container {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--accent-pink);
+        border-radius: 20px;
+        background-color: white;
+        padding: 5px 10px;
+        max-width: 250px;
+      }
+
+      .search-container input {
+        border: none;
+        outline: none;
+        width: 100%;
+        background: none;
+        padding: 0 5px;
+      }
+
+      .search-container .search-icon {
+        font-size: 1.2em;
+        color: var(--text-dark);
+        cursor: pointer;
+      }
+
+      .profile-icon {
+        margin-left: 15px;
+        font-size: 1.8em;
+        color: var(--text-dark);
+        cursor: pointer;
+      }
+
+      /* 3. Main Content & Heading */
+      .main-content {
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto; /* Center the main content */
+      }
+
+      .main-heading {
+        font-size: 4em;
+        font-weight: 300;
+        text-align: center;
+        color: var(--accent-pink);
+        margin: 30px 0 50px 0;
+        line-height: 1.1;
+        /* Simple text shadow to mimic the soft glow in the image */
+        text-shadow: 2px 2px 5px rgba(243, 195, 206, 0.7);
+      }
+
+      .sub-heading {
+        font-size: 0.5em; /* For 'What's' part */
+        display: block;
+      }
+
+      /* 4. Recipe Cards */
+      .recipe-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .recipe-card {
+        display: flex;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+        align-items: center;
+        gap: 20px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .recipe-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .recipe-image-placeholder {
+        /* Placeholder styling to mimic the gray box in the image */
+        width: 120px;
+        height: 120px;
+        background-color: #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0; /* Prevents the image placeholder from shrinking on mobile */
+      }
+
+      .placeholder-icon {
+        font-size: 2em;
+        color: #a0a0a0;
+        /* Using a simple SVG icon for the image placeholder */
+      }
+
+      .recipe-details {
+        flex-grow: 1;
+      }
+
+      .recipe-title-placeholder {
+        height: 20px;
+        background-color: var(--text-dark);
+        width: 80%;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      .recipe-description-placeholder {
+        height: 10px;
+        background-color: var(--text-light);
+        width: 60%;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+
+      /* Star Rating Placeholder */
+      .rating {
+        color: gold; /* Using gold color for stars */
+        font-size: 1.2em;
+        letter-spacing: 5px;
+        margin-top: 10px;
+      }
+
+      /* 5. Modal Styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      .modal-visible {
+        display: flex;
+        opacity: 1;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        position: relative;
+        transform: translateY(-50px);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-visible .modal-content {
+        transform: translateY(0);
+      }
+
+      .close-button {
+        color: var(--text-light);
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .close-button:hover,
+      .close-button:focus {
+        color: var(--accent-pink);
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .modal-title {
+        color: var(--accent-pink);
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        border-bottom: 1px solid var(--accent-pink);
+        padding-bottom: 5px;
+      }
+
+      /* 5. Responsiveness */
+
+      /* Tablet and PC Screens (Min-width: 768px) */
+      @media (min-width: 768px) {
+        .main-heading {
+          font-size: 6em;
+        }
+      }
+
+      /* Mobile Screens (Max-width: 600px) */
+      @media (max-width: 600px) {
+        /* Adjust the header layout for better mobile fit */
+        .header {
+          padding: 0 10px;
+        }
+
+        .nav-links {
+          /* On small screens, hide the text links and rely on icons or a hamburger menu 
+                   For this implementation, we will hide the text links. */
+          display: none;
+        }
+
+        .logo-small {
+          height: 35px;
+        }
+
+        .search-container {
+          max-width: 150px;
+        }
+
+        .main-heading {
+          font-size: 3em;
+          margin-top: 20px;
+          margin-bottom: 30px;
+        }
+
+        /* Make recipe cards stack vertically on very small screens */
+        .recipe-card {
+          flex-direction: column;
+          text-align: left;
+          padding: 15px;
+        }
+
+        .recipe-image-placeholder {
+          width: 100%; /* Image takes full width of the card */
+          height: 150px;
+          margin-bottom: 15px;
+        }
+
+        .recipe-title-placeholder {
+          width: 95%;
+        }
+
+        .recipe-description-placeholder {
+          width: 70%;
+        }
+
+        .rating {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Font Awesome for Icons (Search, Profile, Placeholder) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- 1. Fixed Header (Navigation Bar) -->
+    <header class="header">
+      <!-- Logo (Links back to the welcome page or homepage) -->
+      <a href="recipe_feed.html">
+        <!-- Placeholder for your actual small logo -->
+        <img
+          src="c:\Users\USER\Downloads\TheRecipeLogo.png"
+          alt="Logo"
+          class="logo-small"
+        />
+      </a>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links">
+        <!-- About Button (triggers modal) -->
+        <div class="nav-link-button" onclick="openModal('aboutModal')">
+          About
+        </div>
+        <!-- Setting Button (triggers modal) -->
+        <div class="nav-link-button" onclick="openModal('settingModal')">
+          Setting
+        </div>
+      </nav>
+
+      <!-- Search and Profile -->
+      <div style="display: flex; align-items: center">
+        <div class="search-container">
+          <input type="text" placeholder="Search" />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+        <i class="fas fa-user-circle profile-icon"></i>
+      </div>
+    </header>
+
+    <!-- 2. Main Content Area -->
+    <main class="main-content">
+      <!-- Large Heading -->
+      <h1 class="main-heading">
+        <span class="sub-heading">What's</span>
+        New...
+      </h1>
+
+      <!-- Recipe Card List -->
+      <section class="recipe-card-list">
+        <!-- Recipe Card 1: Links dynamically using JS and Recipe ID 1 -->
+        <a
+          href="recipe_detail.html"
+          onclick="goToRecipe('1'); return false;"
+          class="recipe-link"
+        >
+          <article class="recipe-card">
+            <div class="recipe-image-placeholder">
+              <i class="fas fa-image placeholder-icon"></i>
+            </div>
+            <div class="recipe-details">
+              <div class="recipe-title-placeholder"></div>
+              <div class="recipe-description-placeholder"></div>
+              <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="far fa-star"></i
+                ><i class="far fa-star"></i>
+              </div>
+            </div>
+          </article>
+        </a>
+
+        <!-- Recipe Card 2: Links dynamically using JS and Recipe ID 2 -->
+        <a
+          href="#"
+          onclick="goToRecipe('2'); return false;"
+          class="recipe-link"
+        >
+          <article class="recipe-card">
+            <div class="recipe-image-placeholder">
+              <i class="fas fa-image placeholder-icon"></i>
+            </div>
+            <div class="recipe-details">
+              <div class="recipe-title-placeholder"></div>
+              <div class="recipe-description-placeholder"></div>
+              <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="far fa-star"></i>
+              </div>
+            </div>
+          </article>
+        </a>
+
+        <!-- Recipe Card 3: Links dynamically using JS and Recipe ID 3 -->
+        <a
+          href="#"
+          onclick="goToRecipe('3'); return false;"
+          class="recipe-link"
+        >
+          <article class="recipe-card">
+            <div class="recipe-image-placeholder">
+              <i class="fas fa-image placeholder-icon"></i>
+            </div>
+            <div class="recipe-details">
+              <div class="recipe-title-placeholder"></div>
+              <div class="recipe-description-placeholder"></div>
+              <div class="rating">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                ><i class="fas fa-star"></i>
+              </div>
+            </div>
+          </article>
+        </a>
+      </section>
+    </main>
+
+    <!-- 3. Modals Container -->
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal" onclick="closeModal(event)">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal(event)">&times;</span>
+        <h2 class="modal-title">About The Recipe App</h2>
+        <p>
+          <p> About Us Established in 2025, <br /></p>
+         <p>
+          The Receipt was created to bring together passionate home cooks, food
+          lovers, and culinary explorers through the joy of sharing recipes.
+          Whether you’re a beginner experimenting in the kitchen or an
+          experienced chef, our platform welcomes everyone who believes that
+          food is a universal language that connects people. <br />
+         </p>
+          
+          The Receipt is a student-led, non-profit initiative designed to
+          inspire creativity and promote cultural exchange through cooking. We
+          aim to provide a welcoming digital space where users can share their
+          favorite recipes, discover new dishes, and celebrate diverse cuisines
+          from around the world. <br /> 
+          
+          <p>
+            Guided by our vision to connect communities through food, The Receipt
+          serves as a bridge for people of all backgrounds to share their
+          stories, traditions, and love for cooking. From everyday meals to
+          festive dishes, every recipe shared contributes to a growing
+          collection of flavors and experiences. <br />
+          </p>
+          
+          Our website features easy recipe uploads, browsing functions, and
+          interactive sharing options. We also plan to host online cooking
+          challenges, highlight community favorites, and share culinary tips to
+          encourage creativity in every kitchen. <br />
+          For us, The Receipt is more than just a recipe website — it’s a
+          community built on passion, connection, and the belief that every dish
+          has a story to tell. <br />
+          Bon appétit, and welcome to The Receipt! <br />
+          
+          <footer>
+            📞 : +673 888 9999 | thereceipt@community.com Follow us on Facebook |
+          Instagram | TikTok <br>
+          <small><i>©️2025 by The Receipt</i></small>
+           
+          </footer>
+        </p>
+        <p style="font-size: 0.9em; color: var(--text-light)">
+          Version: 1.0 (Beta)<br />Developer: Gemini
+        </p>
+      </div>
+    </div>
+
+    <!-- Setting Modal -->
+    <div id="settingModal" class="modal" onclick="closeModal(event)">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeModal(event)">&times;</span>
+        <h2 class="modal-title">Settings</h2>
+        <p>
+          <strong>Appearance:</strong> Theme is currently set to 'Pink & Light
+          Mode'.
+        </p>
+        <p>
+          <strong>Notifications:</strong> Email notifications are currently
+          turned off.
+        </p>
+        <p style="font-size: 0.9em; color: var(--text-light)">
+          *Note: This is a placeholder section. Real settings functionality
+          would require a database.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript function to navigate to the detail page and pass the recipe ID
+      function goToRecipe(recipeId) {
+        window.location.href = "recipe_detail.html?id=" + recipeId;
+      }
+
+      // Function to open the modal
+      function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        // We use 'display: flex' + 'opacity: 1' to ensure the modal is visible and centered
+        modal.classList.add("modal-visible");
+      }
+
+      // Function to close the modal
+      function closeModal(event) {
+        // Check if the user clicked the close button (x) or the background (modal itself)
+        if (
+          event.target.classList.contains("modal") ||
+          event.target.classList.contains("close-button")
+        ) {
+          // Find the nearest parent modal if the click was on the close button
+          let modalToClose = event.target.closest(".modal");
+          if (modalToClose) {
+            modalToClose.classList.remove("modal-visible");
+            // Stop the click from propagating to prevent unwanted closing if clicking the content
+            event.stopPropagation();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

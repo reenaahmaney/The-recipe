@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Recipe</title>
+
+    <style>
+      /* 1. General Styles (Mobile Approach) */
+      body {
+        /* Soft pale pink bg */
+        background-color: #f8e7e9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Use min-height : 100vh for full screen coverage */
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        padding: 20px; /* Add padding for mobile screens */
+        box-sizing: border-box; /* Ensure padding doesn't affect total width */
+      }
+
+      /* 2. Main Container */
+      .container{
+        text-align: center;
+        /* Max width ensures it doesn't get too wide on large screens */
+        max-width: 350px;
+        width: 90%; /* Important: takes full width on mobile, constrained by max-width on PC */
+        padding: 40px 20px;
+        box-sizing: border-box;
+      }
+
+      /* 3. Logo Styling */
+      .logo-section {
+        margin-bottom: 40px;
+      }
+      .logo-image {
+        /* Use a max-width based on the container size to ensure it scales down */
+        width: 500px;
+        max-width: 100%;
+        height: 350px;
+      }
+
+      /* 4. Button Styling */
+      .btn {
+        display: block;
+        /* On mobile, let the buttons take up most of the available width */
+        width: 80%;
+        padding: 15px 20px;
+        margin: 15px auto;
+        border: none;
+        border-radius: 8px; /* Slightly more rounded for better touch targets */
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 17px; /* Slightly larger font for better readability on mobile */
+        font-weight: bold;
+        transition: background-color 0.3s;
+        background-color: #f7dde2;
+        color: #333
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .btn.hover {
+        background-color: #f3c3ce;
+      }
+
+      /* 5. Media Query for PC/Desktop Users */
+      /* Apply these styles only when the screen is wider than 600px */
+      @media (min-width: 600px) {
+        .container {
+            /* On PC, constrain the maximum size of the content box */
+            /*max-width: 350px;*/
+            padding: 50px;
+            /* Optional: Add a subtle white background box for a 'floating' card effect like in the image */
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+        }
+        .btn {
+            /* On PC, make the buttons slightly smaller and more contained */
+            width: 70%;
+            /*max-width: 200px;*/
+            font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo-section">
+        <img
+          src="c:\Users\USER\Downloads\TheRecipeLogo.png"
+          alt="The Recipe Logo"
+          class="logo-image"
+        />
+      </div>
+
+      <a href="recipe_feed.html" class="btn">Login</a>
+
+      <a href="singup.html" class="btn">Sign Up</a>
+    </div>
+  </body>
+</html>

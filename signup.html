@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create New Account</title>
+    <style>
+      /* CSS Variables for Colors */
+      :root {
+        --primary-bg: #f8e7e9; /* Pale Pink */
+        --form-bg: white;
+        --text-dark: #333333;
+        --text-light: #666666;
+        --accent-pink: #f3c3ce; /* Soft Pink */
+        --button-hover: #e8b4c0;
+        --input-border: #dcdcdc;
+        --input-focus-border: #f7dde2;
+      }
+
+      /* General Body Styles */
+      body {
+        background-color: var(--primary-bg);
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Form Container */
+      .signup-container {
+        background-color: var(--form-bg);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 450px;
+        width: 100%;
+        text-align: center; /* Center content like logo and title */
+        position: relative; /* For potential absolute positioning of a back button later */
+      }
+
+      /* Logo Space */
+      .logo-space {
+        width: 80px; /* Adjust size as needed */
+        height: 80px; /* Adjust size as needed */
+        background-color: var(--accent-pink); /* Placeholder color */
+        border-radius: 50%; /* Makes it a circle */
+        margin: 0 auto 30px auto; /* Centers the logo and adds space below */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        color: white;
+        font-weight: bold;
+        /* If using an image: */
+        /* background-image: url('path/to/your/logo.png'); */
+        /* background-size: cover; */
+        /* background-position: center; */
+      }
+
+      /* Heading */
+      h1 {
+        font-size: 2.2em;
+        color: var(--text-dark);
+        margin-bottom: 30px;
+        font-weight: bold;
+      }
+
+      /* Form Group for Labels and Inputs */
+      .form-group {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 0.9em;
+        color: var(--text-light);
+        margin-bottom: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--input-border);
+        border-radius: 8px;
+        font-size: 1em;
+        color: var(--text-dark);
+        background-color: #fdfdfd;
+        box-sizing: border-box; /* Include padding in width */
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--accent-pink);
+        box-shadow: 0 0 0 3px rgba(243, 195, 206, 0.3); /* Soft glow */
+      }
+
+      /* Specific style for dropdown arrow */
+      .form-group select {
+        -webkit-appearance: none; /* Remove default arrow on WebKit browsers */
+        -moz-appearance: none; /* Remove default arrow on Firefox */
+        appearance: none; /* Remove default arrow */
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-5.4H18.4c-4.4%200-8.8%201.8-13.2%205.4A17.6%2017.6%200%200%200%200%2082.6c0%204.4%201.8%208.8%205.4%2013.2l128%20128c4.4%204.4%208.8%205.4%2013.2%205.4s8.8-1%2013.2-5.4l128-128c3.6-3.6%205.4-8%205.4-13.2s-1.8-9.6-5.4-13.2z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center; /* Position the arrow */
+        background-size: 10px; /* Size the arrow */
+        padding-right: 35px; /* Ensure text doesn't overlap arrow */
+      }
+
+      /* Get Started Button */
+      .btn-get-started {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        background-color: var(--accent-pink);
+        color: white;
+        text-decoration: none;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.1s;
+        margin-top: 30px;
+      }
+
+      .btn-get-started:hover {
+        background-color: var(--button-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Login Link */
+      .login-link-container {
+        margin-top: 25px;
+        font-size: 0.9em;
+        color: var(--text-light);
+      }
+
+      .login-link-container a {
+        color: var(--accent-pink);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.2s;
+      }
+
+      .login-link-container a:hover {
+        color: var(--text-dark);
+      }
+
+      /* Mobile Adjustments */
+      @media (max-width: 480px) {
+        .signup-container {
+          padding: 30px 20px;
+          margin: 10px;
+        }
+        h1 {
+          font-size: 1.8em;
+          margin-bottom: 25px;
+        }
+        .logo-space {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5em;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="signup-container">
+      <!-- Logo Space -->
+      <div class="logo-space">
+        <!-- You can replace the 'R' with an <img> tag if you have an image logo -->
+        <img
+          src="c:\Users\USER\Downloads\TheRecipeLogo.png"
+          alt="The Recipe Logo"
+          style="
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+          "
+        />
+      </div>
+
+      <h1>Create New Account</h1>
+
+      <form>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Jiara Martins"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="hello@reallygreatsite.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="******"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm-password"
+            name="confirm-password"
+            placeholder="******"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="account-type">Create Account As</label>
+          <select id="account-type" name="account-type">
+            <option value="">Select</option>
+            <option value="home-cook">Home Cook</option>
+            <option value="professional-chef">Professional Chef</option>
+            <option value="food-blogger">Food Blogger</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-get-started">GET STARTED</button>
+      </form>
+
+      <div class="login-link-container">
+        Already Registered? <a href="login.html">Login</a>
+      </div>
+    </div>
+
+    <script>
+      // You would add JavaScript here for form validation, submission, etc.
+      // For example, a basic form submission handler:
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Basic validation example
+          const username = document.getElementById("username").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+          const accountType = document.getElementById("account-type").value;
+
+          if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+          }
+          if (!username || !email || !password || !accountType) {
+            alert("Please fill in all fields.");
+            return;
+          }
+
+          // In a real application, you would send this data to a server
+          console.log("Form Submitted:", {
+            username,
+            email,
+            password,
+            accountType,
+          });
+          alert("Account creation simulated! Redirecting to home page...");
+          window.location.href = "recipe_feed.html"; // Redirect to the main feed after "signup"
+        });
+    </script>
+  </body>
+</html>

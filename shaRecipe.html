@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ShuRecipe — Mobile Wireframe</title>
+    <style>
+      /* Simple mobile-first styling for the wireframe */
+      :root {
+        --accent: #fbcccc;
+        --muted: #777;
+        --bg: #f8f9fb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        margin: 0;
+        background: var(--bg);
+        color: #f45472;
+      }
+      .screen {
+        max-width: 420px;
+        margin: 24px auto;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 6px 18px rgba(25, 30, 40, 0.06);
+        overflow: hidden;
+      }
+      .pad {
+        padding: 20px;
+      }
+      header.logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+      .logo small {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* welcome */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .avatar {
+        width: 96px;
+        height: 96px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--accent), #9bd1ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 28px;
+      }
+      .btn {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        border: 0;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid rgba(107, 142, 235, 0.12);
+      }
+
+      /* forms */
+      form {
+        display: grid;
+        gap: 12px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="email"],
+      select {
+        width: 100%;
+        padding: 12px 10px;
+        border-radius: 8px;
+        border: 1px solid #e6e9ef;
+        font-size: 14px;
+      }
+      .muted {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      footer.actions {
+        display: flex;
+        gap: 10px;
+      }
+      .link {
+        font-size: 13px;
+        color: var(--accent);
+        cursor: pointer;
+      }
+
+      /* small helpers */
+      .hidden {
+        display: none;
+      }
+      .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .tiny {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* responsive tweak */
+      @media (min-width: 560px) {
+        body {
+          background: #ffece4;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Single HTML file with three screens switched by JS: Welcome, Sign Up, Login -->
+    <div class="screen" id="app">
+      <!-- WELCOME SCREEN -->
+      <section id="welcome" class="pad">
+        <div class="hero">
+          <div class="avatar">SR</div>
+          <div>
+            <h2 style="margin: 0">
+              Welcome to<br /><strong>ShuRecipe</strong>
+            </h2>
+            <p class="muted" style="margin-top: 6px">
+              Find, share & save your favourite recipes
+            </p>
+          </div>
+        </div>
+
+        <div style="padding: 0 20px 24px">
+          <button class="btn btn-primary" id="toLogin">Login</button>
+          <div style="height: 10px"></div>
+          <button class="btn btn-ghost" id="toSignup">Sign Up</button>
+          <p class="tiny center" style="margin-top: 16px">
+            Continue <span class="link" id="asGuest">as a guest</span>
+          </p>
+        </div>
+      </section>
+
+      <!-- SIGN UP SCREEN -->
+      <section id="signup" class="pad hidden">
+        <header class="logo">
+          <button class="link" id="backFromSignup">← Back</button>
+          <div style="flex: 1"></div>
+        </header>
+        <h3 style="margin-top: 8px">Create an account</h3>
+        <p class="muted">
+          Join the community to post recipes, comment and save favourites
+        </p>
+
+        <form id="signupForm">
+          <div>
+            <label for="su-username">Username</label>
+            <input
+              id="su-username"
+              name="username"
+              type="text"
+              placeholder="eg. reena123"
+              required
+            />
+          </div>
+          <div>
+            <label for="su-email">Email</label>
+            <input
+              id="su-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div>
+            <label for="su-password">Password</label>
+            <input
+              id="su-password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div>
+            <label for="su-confirm">Confirm password</label>
+            <input
+              id="su-confirm"
+              name="confirm"
+              type="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div>
+            <label for="su-role">Create account as</label>
+            <select id="su-role" name="role">
+              <option value="user">User</option>
+              <option value="admin">Admin (for assignment demo)</option>
+              <option value="guest">Guest</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn btn-primary" type="submit">Get Started</button>
+          </div>
+        </form>
+
+        <p class="tiny center" style="margin-top: 8px">
+          Already have an account?
+          <span class="link" id="gotoLoginFromSignup">Login</span>
+        </p>
+      </section>
+
+      <!-- LOGIN SCREEN -->
+      <section id="login" class="pad hidden">
+        <header class="logo">
+          <button class="link" id="backFromLogin">← Back</button>
+          <div style="flex: 1"></div>
+        </header>
+
+        <h3 style="margin-top: 8px">Login</h3>
+        <p class="muted">Sign in with your username and password</p>
+
+        <form id="loginForm">
+          <div>
+            <label for="li-username">Username</label>
+            <input
+              id="li-username"
+              name="username"
+              type="text"
+              placeholder="username"
+              required
+            />
+          </div>
+          <div>
+            <label for="li-password">Password</label>
+            <input
+              id="li-password"
+              name="password"
+              type="password"
+              placeholder="password"
+              required
+            />
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <label><input type="checkbox" id="remember" /> Remember me</label>
+            <a class="tiny link" id="forgot">Forgot?</a>
+          </div>
+          <div>
+            <button class="btn btn-primary" type="submit">Login</button>
+          </div>
+        </form>
+
+        <p class="muted center" style="margin-top: 10px">
+          Don't have an account?
+          <span class="link" id="gotoSignupFromLogin">Sign up</span>
+        </p>
+      </section>
+    </div>
+
+    <script>
+      // Simple client-side navigation for the wireframe
+      const welcome = document.getElementById("welcome");
+      const signup = document.getElementById("signup");
+      const login = document.getElementById("login");
+
+      function show(id) {
+        welcome.classList.add("hidden");
+        signup.classList.add("hidden");
+        login.classList.add("hidden");
+        document.getElementById(id).classList.remove("hidden");
+      }
+
+      document
+        .getElementById("toLogin")
+        .addEventListener("click", () => show("login"));
+      document
+        .getElementById("toSignup")
+        .addEventListener("click", () => show("signup"));
+      document
+        .getElementById("asGuest")
+        .addEventListener("click", () =>
+          alert("Continuing as guest — demo only")
+        );
+
+      document
+        .getElementById("backFromSignup")
+        .addEventListener("click", () => show("welcome"));
+      document
+        .getElementById("backFromLogin")
+        .addEventListener("click", () => show("welcome"));
+
+      document
+        .getElementById("gotoLoginFromSignup")
+        .addEventListener("click", () => show("login"));
+      document
+        .getElementById("gotoSignupFromLogin")
+        .addEventListener("click", () => show("signup"));
+
+      // Form handlers (demo): these will later be wired to backend endpoints that talk to your database
+      document
+        .getElementById("signupForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const u = this.username.value.trim();
+          const email = this.email.value.trim();
+          const p = this.password.value;
+          const c = this.confirm.value;
+          if (p !== c) {
+            alert("Passwords do not match");
+            return;
+          }
+          // Demo: show success and log object (replace with fetch POST to server)
+          console.log("SIGNUP (demo)", {
+            username: u,
+            email,
+            role: this.role.value,
+          });
+          alert(
+            "Account created (demo). You would now send this data to your backend."
+          );
+          show("login");
+        });
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          // Demo: send credentials to server for verification
+          console.log("LOGIN (demo)", {
+            username: this.username.value,
+            password: this.password.value,
+          });
+          alert(
+            "Login attempt (demo). In real app, POST to server and receive auth token or session."
+          );
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Title - The Recipe</title>
+    <style>
+      /* CSS Variables for Colors */
+      :root {
+        --primary-bg: #f8e7e9; /* Pale Pink Background */
+        --header-bg: #ffe5e8; /* Slightly lighter pink for header/cards */
+        --text-dark: #333333;
+        --text-light: #666666;
+        --accent-pink: #ff8fa4; /* Soft Pink Accent */
+      }
+
+      /* 1. General Styles & Body */
+      body {
+        background-color: var(--primary-bg);
+        margin: 0;
+        font-family: "Arial", sans-serif;
+        color: var(--text-dark);
+        padding-top: 60px; /* Space for the fixed header */
+      }
+
+      /* 2. Header (Copied from previous file) */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background-color: var(--header-bg);
+        border-bottom: 1px solid var(--accent-pink);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+        box-sizing: border-box;
+        z-index: 1000;
+      }
+
+      .logo-small {
+        height: 40px;
+        margin-right: 20px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        flex-grow: 1;
+      }
+      .nav-links a {
+        color: var(--text-dark);
+        text-decoration: none;
+        font-weight: bold;
+        padding: 5px 0;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--accent-pink);
+      }
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--accent-pink);
+        border-radius: 20px;
+        background-color: white;
+        padding: 5px 10px;
+        max-width: 250px;
+      }
+      .search-container input {
+        border: none;
+        outline: none;
+        width: 100%;
+        background: none;
+        padding: 0 5px;
+      }
+      .profile-icon {
+        margin-left: 15px;
+        font-size: 1.8em;
+        color: var(--text-dark);
+        cursor: pointer;
+      }
+
+      /* 3. Main Content Area */
+      .main-content {
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      /* Recipe Header/Metadata Section */
+      .recipe-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        flex-wrap: wrap; /* Allows wrapping on mobile */
+      }
+
+      .recipe-info {
+        flex-grow: 1;
+        min-width: 200px; /* Ensures space on small screens */
+        margin-bottom: 20px; /* Space for wrapping on mobile */
+      }
+
+      .recipe-title {
+        font-size: 3em;
+        font-weight: 300;
+        color: var(--accent-pink);
+        text-shadow: 1px 1px 3px rgba(243, 195, 206, 0.7);
+        margin-bottom: 5px;
+      }
+
+      .upload-details {
+        font-size: 0.9em;
+        color: var(--text-light);
+        line-height: 1.4;
+      }
+
+      .uploader-details {
+        text-align: right;
+        color: var(--text-dark);
+        font-size: 0.9em;
+      }
+
+      .uploader-details .profile-icon {
+        font-size: 2.5em;
+        display: block;
+        margin: 5px 0 0 auto;
+      }
+
+      .uploader-details a {
+        color: var(--text-dark);
+        text-decoration: none;
+        display: block;
+      }
+
+      /* 4. Image/Video Section */
+      .media-container {
+        width: 100%;
+        height: auto;
+        max-height: 500px; /* Limit height on desktop */
+        overflow: hidden;
+        border-radius: 12px;
+        margin-bottom: 40px;
+        position: relative;
+        background-color: #e0e0e0; /* Placeholder background */
+      }
+
+      .media-container img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .image-counter {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+      }
+
+      /* 5. Accordion Sections (Ingredients, Steps, Instructions) */
+      .accordion-section {
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--accent-pink);
+      }
+
+      /* Styling for the details/summary tag structure */
+      .accordion-section summary {
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--accent-pink);
+        padding: 15px 0;
+        cursor: pointer;
+        list-style: none; /* Remove default triangle/arrow */
+        text-shadow: 1px 1px 3px rgba(243, 195, 206, 0.7);
+      }
+
+      /* Custom arrow/chevron */
+      .accordion-section summary::-webkit-details-marker {
+        display: none;
+      }
+      .accordion-section summary::after {
+        content: "\f078"; /* Font Awesome Chevron Down */
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        float: right;
+        transition: transform 0.2s;
+        color: var(--accent-pink);
+        font-size: 0.5em;
+        line-height: 2;
+      }
+
+      .accordion-section[open] summary::after {
+        content: "\f077"; /* Font Awesome Chevron Up */
+      }
+
+      .accordion-content {
+        padding: 10px 0 20px 20px;
+        line-height: 1.6;
+        color: var(--text-dark);
+      }
+
+      /* 6. Comments Section */
+      .comments-title {
+        font-size: 2.5em;
+        font-weight: 300;
+        color: var(--accent-pink);
+        text-shadow: 1px 1px 3px rgba(243, 195, 206, 0.7);
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+
+      .comment-input-area {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--accent-pink);
+        background-color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        margin-bottom: 40px;
+      }
+
+      .comment-input-area input {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        padding: 5px;
+      }
+
+      .comment-input-area .profile-icon {
+        font-size: 1.5em;
+      }
+
+      .send-icon {
+        font-size: 1.5em;
+        color: var(--accent-pink);
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .send-icon:hover {
+        color: var(--text-dark);
+      }
+
+      /* 7. Responsiveness */
+      @media (max-width: 768px) {
+        .recipe-title {
+          font-size: 2.2em;
+        }
+
+        .uploader-details {
+          text-align: left; /* Shift uploader details to the left on mobile */
+          width: 100%;
+          margin-top: 15px;
+        }
+
+        .uploader-details .profile-icon {
+          margin-left: 0;
+        }
+
+        .accordion-section summary {
+          font-size: 1.8em;
+        }
+
+        .comments-title {
+          font-size: 1.8em;
+        }
+
+        .comment-input-area {
+          padding: 5px 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Font Awesome for Icons (Navigation, Profile, Chevrons, Send) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- 1. Fixed Header (Navigation Bar) -->
+    <header class="header">
+      <a href="recipe_feed.html">
+        <img src="path/to/small-logo.png" alt="Logo" class="logo-small" />
+      </a>
+      <nav class="nav-links">
+        <a href="#">About</a>
+        <a href="#">Setting</a>
+      </nav>
+      <div style="display: flex; align-items: center">
+        <div class="search-container">
+          <input type="text" placeholder="Search" />
+          <i class="fas fa-search"></i>
+        </div>
+        <i class="fas fa-user-circle profile-icon"></i>
+      </div>
+    </header>
+
+    <!-- 2. Main Content Area -->
+    <main class="main-content">
+      <!-- Recipe Header and Uploader Metadata -->
+      <div class="recipe-header-container">
+        <div class="recipe-info">
+          <h1 class="recipe-title">Recipe Title</h1>
+          <p class="upload-details">Date and time Upload</p>
+        </div>
+        <div class="uploader-details">
+          <a href="#">Username of the upload</a>
+          <a href="#">Region</a>
+          <i class="fas fa-user-circle profile-icon"></i>
+        </div>
+      </div>
+
+      <!-- Image/Video Container -->
+      <div class="media-container">
+        <!-- IMPORTANT: Replace this image source with your actual content -->
+        <img
+          src="https://placehold.co/1000x500/A0A0A0/FFFFFF?text=Recipe+Photo/Video"
+          onerror="this.onerror=null;this.src='https://placehold.co/1000x500/A0A0A0/FFFFFF?text=Content+Missing';"
+          alt="Main Recipe Image"
+        />
+        <div class="image-counter">1/6</div>
+      </div>
+
+      <!-- 3. Accordion Sections -->
+
+      <div class="accordion-list">
+        <!-- Ingredients Section -->
+        <details class="accordion-section" open>
+          <summary>Ingredients</summary>
+          <div class="accordion-content">
+            <ul>
+              <li>$1$ cup flour ($120 \text{g}$)</li>
+              <li>$1/2$ cup sugar ($100 \text{g}$)</li>
+              <li>$2$ eggs</li>
+              <li>$1$ teaspoon vanilla extract</li>
+              <li>$1/4$ teaspoon salt ($\text{NaCl}$)</li>
+            </ul>
+            <p>Check your pantry for these essentials before starting!</p>
+          </div>
+        </details>
+
+        <!-- Steps Section -->
+        <details class="accordion-section">
+          <summary>Steps</summary>
+          <div class="accordion-content">
+            <ol>
+              <li>
+                Preheat oven to $350^\circ\text{F}$ ($175^\circ\text{C}$).
+              </li>
+              <li>
+                In a large bowl, whisk together the dry ingredients
+                ($\text{flour}$, $\text{sugar}$, $\text{salt}$).
+              </li>
+              <li>In a separate bowl, combine the wet ingredients.</li>
+              <li>Slowly mix wet and dry ingredients until just combined.</li>
+              <li>Pour into a greased $9 \text{x} 5$ inch pan.</li>
+            </ol>
+          </div>
+        </details>
+
+        <!-- Cooking Instructions Section -->
+        <details class="accordion-section">
+          <summary>Cooking Instructions</summary>
+          <div class="accordion-content">
+            <p>
+              Bake for $45$ minutes. Check for doneness by inserting a
+              toothpick; it should come out clean. Let cool for $15$ minutes
+              before serving.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <!-- 4. Comments Section -->
+      <h2 class="comments-title">Comments</h2>
+      <div class="comment-input-area">
+        <i class="fas fa-user-circle profile-icon"></i>
+        <input type="text" placeholder="Add a comment..." />
+        <i class="fas fa-paper-plane send-icon"></i>
+      </div>
+
+      <!-- Placeholder for existing comments -->
+      <div
+        style="
+          margin-bottom: 50px;
+          font-style: italic;
+          color: var(--text-light);
+        "
+      >
+        No comments yet. Be the first to try this recipe!
+      </div>
+    </main>
+  </body>
+</html>
