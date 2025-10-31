@@ -7,8 +7,8 @@
     <style>
       /* CSS Variables for Colors */
       :root {
-        --primary-bg: #f8e7e9; /* Pale Pink Background */
-        --header-bg: #ffe5e8; /* Slightly lighter pink for header/cards */
+        --primary-bg: #ffece4; /* Pale Pink Background */
+        --header-bg: #fbcccc; /* Slightly lighter pink for header/cards */
         --text-dark: #333333;
         --text-light: #666666;
         --accent-pink: #ff8fa4; /* Soft Pink Accent */
@@ -18,7 +18,7 @@
       body {
         background-color: var(--primary-bg);
         margin: 0;
-        font-family: "Arial", sans-serif;
+        font-family: "Times New Roman", Times, serif;
         color: var(--text-dark);
         padding-top: 60px; /* Space for the fixed header */
       }
@@ -30,18 +30,19 @@
         left: 0;
         width: 100%;
         height: 60px;
-        background-color: var(--header-bg);
-        border-bottom: 1px solid var(--accent-pink);
+        background-color: white;
+        /*border-bottom: 1px solid var(--accent-pink);*/
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         box-sizing: border-box;
         z-index: 1000;
       }
 
-      .logo-small {
-        height: 40px;
+      .logo-image {
+        height: 90px;
         margin-right: 20px;
       }
       .nav-links {
@@ -60,22 +61,39 @@
         color: var(--accent-pink);
       }
 
-      .search-container {
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--accent-pink);
-        border-radius: 20px;
-        background-color: white;
-        padding: 5px 10px;
-        max-width: 250px;
+      /* New CSS for the Header Profile Icon */
+      .header-profile-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ff8fa4; /* Accent color border */
+        transition: border-color 0.2s;
       }
-      .search-container input {
-        border: none;
-        outline: none;
-        width: 100%;
-        background: none;
-        padding: 0 5px;
+
+      .header-profile-icon:hover {
+        border-color: #e07d93;
       }
+
+      /* Profile Header */
+      .profile-header {
+        background-color: var(--card-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .profile-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid var(--accent-pink);
+        margin: 0 auto 10px;
+      }
+
       .profile-icon {
         margin-left: 15px;
         font-size: 1.8em;
@@ -289,22 +307,34 @@
     />
 
     <!-- 1. Fixed Header (Navigation Bar) -->
-    <header class="header">
-      <a href="recipe_feed.html">
-        <img src="path/to/small-logo.png" alt="Logo" class="logo-small" />
-      </a>
+    <div class="header">
+      <div class="logo-area">
+        <a href="recipe_feed.html">
+          <img
+            src="c:\Users\USER\Downloads\TheRecipeLogo.png"
+            alt="Website Logo"
+            class="logo-image"
+            onerror="this.onerror=null; this.src='https://placehold.co/150x40/ff8fa4/ffffff?text=YOUR+LOGO';"
+          />
+        </a>
+      </div>
+      <!-- Settings and About Icon -->
       <nav class="nav-links">
         <a href="#">About</a>
         <a href="#">Setting</a>
       </nav>
       <div style="display: flex; align-items: center">
-        <div class="search-container">
-          <input type="text" placeholder="Search" />
-          <i class="fas fa-search"></i>
-        </div>
-        <i class="fas fa-user-circle profile-icon"></i>
+        <!-- User Profile Icon (New Addition) -->
+        <a href="user_profile.html" title="Go to Profile">
+          <img
+            src="https://placehold.co/35x35/f3c3ce/FFFFFF?text=P"
+            alt="User Profile Icon"
+            class="header-profile-icon"
+            onerror="this.onerror=null; this.src='https://placehold.co/35x35/f3c3ce/FFFFFF?text=P';"
+          />
+        </a>
       </div>
-    </header>
+    </div>
 
     <!-- 2. Main Content Area -->
     <main class="main-content">

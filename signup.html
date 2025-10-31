@@ -45,10 +45,10 @@
 
       /* Logo Space */
       .logo-space {
-        width: 80px; /* Adjust size as needed */
-        height: 80px; /* Adjust size as needed */
-        background-color: var(--accent-pink); /* Placeholder color */
-        border-radius: 50%; /* Makes it a circle */
+        width: 250px; /* Adjust size as needed */
+        height: 250px; /* Adjust size as needed */
+        /*background-color: var(--accent-pink); /* Placeholder color */
+        /*border-radius: 50%; /* Makes it a circle */
         margin: 0 auto 30px auto; /* Centers the logo and adds space below */
         display: flex;
         justify-content: center;
@@ -196,7 +196,7 @@
 
       <h1>Create New Account</h1>
 
-      <form>
+      <form action="signup.php" method="POST" >
         <div class="form-group">
           <label for="username">Username</label>
           <input
@@ -252,48 +252,13 @@
         </div>
 
         <button type="submit" class="btn-get-started">GET STARTED</button>
-      </form>
+      
 
       <div class="login-link-container">
         Already Registered? <a href="login.html">Login</a>
       </div>
     </div>
 
-    <script>
-      // You would add JavaScript here for form validation, submission, etc.
-      // For example, a basic form submission handler:
-      document
-        .querySelector("form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent default form submission
-
-          // Basic validation example
-          const username = document.getElementById("username").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const confirmPassword =
-            document.getElementById("confirm-password").value;
-          const accountType = document.getElementById("account-type").value;
-
-          if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-          }
-          if (!username || !email || !password || !accountType) {
-            alert("Please fill in all fields.");
-            return;
-          }
-
-          // In a real application, you would send this data to a server
-          console.log("Form Submitted:", {
-            username,
-            email,
-            password,
-            accountType,
-          });
-          alert("Account creation simulated! Redirecting to home page...");
-          window.location.href = "recipe_feed.html"; // Redirect to the main feed after "signup"
-        });
-    </script>
+    
   </body>
 </html>

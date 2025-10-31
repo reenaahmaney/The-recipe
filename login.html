@@ -7,7 +7,7 @@
     <style>
       /* CSS Variables for Colors - Copied from signup.html for consistency */
       :root {
-        --primary-bg: #f8e7e9; /* Pale Pink */
+        --primary-bg: #ffece4; /* Pale Pink */
         --form-bg: white;
         --text-dark: #333333;
         --text-light: #666666;
@@ -45,20 +45,21 @@
 
       /* Logo Space - UPDATED STYLES */
       .logo-space {
-        width: 150px; /* Example width for a rectangular logo */
-        height: 60px; /* Example height for a rectangular logo */
-        /* background-color: var(--accent-pink); /* Removed placeholder background */
-        /* border-radius: 50%; /* Removed circular shape */
-        margin: 0 auto 30px auto;
+        width: 250px; /* Adjust size as needed */
+        height: 250px; /* Adjust size as needed */
+        /*background-color: var(--accent-pink); /* Placeholder color */
+        /*border-radius: 50%; /* Makes it a circle */
+        margin: 0 auto 30px auto; /* Centers the logo and adds space below */
         display: flex;
         justify-content: center;
         align-items: center;
-        /* If you want a temporary visual rectangle */
-        border: 2px dashed var(--accent-pink);
-        font-size: 1.2em;
-        color: var(--text-light);
+        font-size: 2em;
+        color: white;
         font-weight: bold;
-        text-align: center;
+        /* If using an image: */
+        /* background-image: url('path/to/your/logo.png'); */
+        /* background-size: cover; */
+        /* background-position: center; */
       }
 
       /* Heading */
@@ -171,9 +172,9 @@
           margin-bottom: 25px;
         }
         .logo-space {
-          width: 120px; /* Adjusted for smaller screens */
-          height: 50px; /* Adjusted for smaller screens */
-          font-size: 0.9em; /* Smaller text for placeholder */
+          width: 60px; /* Adjusted for smaller screens */
+          height: 60px; /* Adjusted for smaller screens */
+          font-size: 1.5em; /* Smaller text for placeholder */
           margin-bottom: 20px;
         }
       }
@@ -182,8 +183,8 @@
   <body>
     <div class="login-container">
       <!-- Logo Space: Now a rectangular area for your image -->
-      <div
-        class="logo-space"
+      <div class="logo-space">
+        <!-- You can replace the 'R' with an <img> tag if you have an image logo -->
         <img
           src="c:\Users\USER\Downloads\TheRecipeLogo.png"
           alt="The Recipe Logo"
@@ -194,8 +195,6 @@
             border-radius: 50%;
           "
         />
-       
-        
       </div>
 
       <h1>Welcome Back</h1>
@@ -224,7 +223,7 @@
         </div>
 
         <div class="forgot-password">
-          <a href="#">Forgot Password?</a>
+          <a href="forgot_password.php">Forgot Password?</a>
         </div>
 
         <button type="submit" class="btn-login">LOGIN</button>
@@ -234,33 +233,5 @@
         New to The Recipe? <a href="signup.html">Create Account</a>
       </div>
     </div>
-
-    <script>
-      // Placeholder for login logic
-      document
-        .querySelector("form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault(); // Prevent default form submission
-
-          // Basic validation check
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-
-          if (!email || !password) {
-            console.error(
-              "Error: Please enter both your email/username and password."
-            );
-            // In a real app, display an error message on the page instead of console.error
-            return;
-          }
-
-          // In a real application, you would authenticate against a server
-          console.log("Login Attempt:", { email, password });
-          console.log(
-            "SUCCESS: Login simulated! Redirecting to the main feed..."
-          );
-          window.location.href = "recipe_feed.html"; // Redirect to the main feed after login
-        });
-    </script>
   </body>
 </html>

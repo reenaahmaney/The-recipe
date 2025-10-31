@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create New Recipe</title>
+
+    <style>
+      /* ---------------------------------- */
+      /* CSS STYLES GO HERE */
+      /* ---------------------------------- */
+
+      :root {
+        --primary-color: #ff8fa4; /* The soft reddish-pink accent */
+        --delete-color: #dc3545; /* Deeper red for delete */
+        --text-color: #333;
+        --light-border: #eee;
+        --background-grey: #ffece4;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Times New Roman", Times, serif;
+      }
+
+      body {
+        background-color: var(--background-grey);
+        padding: 10px;
+      }
+
+      .container {
+        max-width: 90%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      }
+
+      h1 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: var(--text-color);
+        border-bottom: 2px solid var(--light-border);
+        padding-bottom: 5px;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-size: 1.25rem;
+      }
+
+      /* FORM CONTROLS */
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid var(--light-border);
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      /* INGREDIENT LIST STYLES */
+      .ingredients-list,
+      .steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .ingredient-item {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start; /* Align with top of inputs */
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #fcfcfc;
+      }
+
+      .ingredient-inputs {
+        display: flex;
+        flex-grow: 1;
+        gap: 10px;
+      }
+      .ingredient-inputs input {
+        margin-bottom: 0;
+      }
+      .ingredient-inputs input:nth-child(1) {
+        flex: 4;
+      } /* Name */
+      .ingredient-inputs input:nth-child(2) {
+        flex: 2;
+      } /* Quantity */
+      .ingredient-inputs input:nth-child(3) {
+        flex: 1;
+      } /* Unit */
+
+      /* STEP LIST STYLES */
+      .step-item {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #fcfcfc;
+      }
+
+      .step-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        width: 30px;
+        text-align: center;
+        flex-shrink: 0;
+        padding-top: 5px;
+      }
+
+      .step-content {
+        flex-grow: 1;
+      }
+      .step-content input,
+      .step-content textarea {
+        margin-bottom: 5px;
+      }
+
+      /* ACTION BUTTONS */
+      .add-button {
+        background-color: #f7d6e4;
+        color: var(--primary-color);
+        border: 1px solid var(--primary-color);
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s;
+        margin-top: 10px;
+      }
+
+      .add-button:hover {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .delete-ingredient,
+      .delete-step {
+        background-color: var(--delete-color);
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        flex-shrink: 0;
+        transition: background-color 0.2s;
+        height: 40px; /* Match height of input for better alignment */
+        line-height: 1;
+      }
+
+      .delete-ingredient:hover,
+      .delete-step:hover {
+        background-color: #9d2531;
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 30px;
+        padding-top: 15px;
+        border-top: 1px solid var(--light-border);
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: opacity 0.2s;
+      }
+
+      .btn-delete {
+        background-color: var(--delete-color);
+        color: white;
+      }
+
+      .btn-publish {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .btn-save-draft {
+        background-color: #ccc;
+        color: var(--text-color);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+          max-width: 100%;
+        }
+        .ingredient-item {
+          flex-direction: column;
+          gap: 5px;
+        }
+        .ingredient-inputs {
+          flex-direction: column;
+          gap: 5px;
+          width: 100%;
+        }
+        .ingredient-inputs input {
+          width: 100%;
+          margin-bottom: 0;
+        }
+        .delete-ingredient,
+        .delete-step {
+          width: 100%;
+          height: auto;
+          padding: 10px;
+        }
+        .step-item {
+          flex-direction: column;
+        }
+        .step-number {
+          text-align: left;
+          padding-left: 0;
+          width: auto;
+        }
+        .form-actions {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Create New Recipe</h1>
+      <form
+        action="submit_recipe.php"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <section class="basic-info">
+          <h2>Basic Information</h2>
+          <label for="title">Recipe Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="e.g., Fluffy Pancakes"
+            required
+          />
+
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            rows="5"
+            placeholder="A short description of your recipe..."
+          ></textarea>
+
+          <div style="display: flex; gap: 10px">
+            <div style="flex: 1">
+              <label for="prep_time">Prep Time</label>
+              <input
+                type="text"
+                id="prep_time"
+                name="prep_time"
+                placeholder="e.g., 15 minutes"
+              />
+            </div>
+            <div style="flex: 1">
+              <label for="cook_time">Cook Time</label>
+              <input
+                type="text"
+                id="cook_time"
+                name="cook_time"
+                placeholder="e.g., 30 minutes"
+              />
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px">
+            <div style="flex: 1">
+              <label for="servings">Servings</label>
+              <input
+                type="number"
+                id="servings"
+                name="servings"
+                placeholder="e.g., 4"
+                min="1"
+              />
+            </div>
+            <div style="flex: 1">
+              <label for="category">Category</label>
+              <select id="category" name="category">
+                <option value="">Select a Category</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="dessert">Dessert</option>
+                <option value="side">Side Dish</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="main_photo">Main Photo</label>
+          <input
+            type="file"
+            id="main_photo"
+            name="main_photo"
+            accept="image/*"
+          />
+
+          <label>
+            <input type="checkbox" name="is_private" value="1" />
+            Keep this recipe private
+          </label>
+        </section>
+
+        <section class="ingredients-section">
+          <h2>Ingredients</h2>
+          <div id="ingredientsList" class="ingredients-list">
+            <!-- Initial Ingredient Item -->
+            <div class="ingredient-item">
+              <div class="ingredient-inputs">
+                <input
+                  type="text"
+                  name="ingredient_name[]"
+                  placeholder="Ingredient Name"
+                />
+                <input
+                  type="text"
+                  name="ingredient_quantity[]"
+                  placeholder="Quantity"
+                />
+                <input
+                  type="text"
+                  name="ingredient_unit[]"
+                  placeholder="Unit (e.g., cup)"
+                />
+              </div>
+              <button type="button" class="delete-ingredient">X</button>
+            </div>
+          </div>
+          <button type="button" id="addIngredient" class="add-button">
+            + Ingredient
+          </button>
+        </section>
+
+        <section class="steps-section">
+          <h2>Steps</h2>
+          <div id="stepsList" class="steps-list">
+            <!-- Initial Step Item -->
+            <div class="step-item">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <input
+                  type="text"
+                  name="step_cook_time[]"
+                  placeholder="Cook time (e.g., 15min)"
+                />
+                <textarea
+                  name="step_description[]"
+                  rows="3"
+                  placeholder="Mix the flour and water until they thicken"
+                ></textarea>
+                <input type="file" name="step_photo[]" accept="image/*" />
+              </div>
+              <button type="button" class="delete-step">X</button>
+            </div>
+          </div>
+          <button type="button" id="addStep" class="add-button">+ Step</button>
+        </section>
+
+        <section class="form-actions">
+          <button type="button" class="btn btn-delete">Delete</button>
+          <button type="submit" class="btn btn-save-draft" name="save_draft">
+            Save as Draft
+          </button>
+          <button type="submit" class="btn btn-publish" name="publish_recipe">
+            Publish
+          </button>
+        </section>
+      </form>
+    </div>
+
+    <script>
+      /**
+       * ===================================================
+       * DYNAMIC FORM FIELD LOGIC
+       * ===================================================
+       */
+
+      // --- Helper function to re-index step numbers ---
+      function reindexSteps() {
+        const stepItems = document.querySelectorAll("#stepsList .step-item");
+        stepItems.forEach((item, index) => {
+          const stepNumber = item.querySelector(".step-number");
+          if (stepNumber) {
+            stepNumber.textContent = index + 1;
+          }
+        });
+      }
+
+      // --- Helper function to create the Ingredient HTML structure ---
+      function createIngredientItem() {
+        const item = document.createElement("div");
+        item.className = "ingredient-item";
+        item.innerHTML = `
+          <div class="ingredient-inputs">
+            <input type="text" name="ingredient_name[]" placeholder="Ingredient Name" />
+            <input type="text" name="ingredient_quantity[]" placeholder="Quantity" />
+            <input type="text" name="ingredient_unit[]" placeholder="Unit (e.g., cup)" />
+          </div>
+          <button type="button" class="delete-ingredient">X</button>
+        `;
+        // Attach the delete listener immediately
+        setupDeleteListener(item.querySelector(".delete-ingredient"));
+        return item;
+      }
+
+      // --- Helper function to create the Step HTML structure ---
+      function createStepItem() {
+        const item = document.createElement("div");
+        item.className = "step-item";
+
+        // Calculate the next step number
+        const currentCount = document.querySelectorAll(
+          "#stepsList .step-item"
+        ).length;
+        const nextStepNumber = currentCount + 1;
+
+        item.innerHTML = `
+          <span class="step-number">${nextStepNumber}</span>
+          <div class="step-content">
+            <input
+              type="text"
+              name="step_cook_time[]"
+              placeholder="Cook time (e.g., 15min)"
+            />
+            <textarea
+              name="step_description[]"
+              rows="3"
+              placeholder="Explain the step..."
+            ></textarea>
+            <input type="file" name="step_photo[]" accept="image/*" />
+          </div>
+          <button type="button" class="delete-step">X</button>
+        `;
+        // Attach the delete listener immediately
+        setupDeleteListener(item.querySelector(".delete-step"));
+        return item;
+      }
+
+      // --- Universal Listener Setup for Delete Buttons ---
+      function setupDeleteListener(button) {
+        button.addEventListener("click", (event) => {
+          const item = event.target.closest(".ingredient-item, .step-item");
+          if (item) {
+            // Check if it's the last remaining item in the list
+            const parentList = item.parentElement;
+            if (parentList.children.length > 1) {
+              // Only remove if there's more than one item left
+              item.remove();
+
+              // If a step was deleted, re-index the numbers
+              if (item.classList.contains("step-item")) {
+                reindexSteps();
+              }
+            } else {
+              // If it's the last item, instead of deleting the container,
+              // we clear its inputs as requested by the user, but keep the minimum container.
+              const inputs = item.querySelectorAll("input, textarea");
+              inputs.forEach((input) => {
+                if (input.type === "file") {
+                  // Clear file input by replacing it (necessary for security)
+                  input.value = "";
+                } else {
+                  input.value = "";
+                }
+              });
+            }
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const ingredientsList = document.getElementById("ingredientsList");
+        const stepsList = document.getElementById("stepsList");
+        const addIngredientBtn = document.getElementById("addIngredient");
+        const addStepBtn = document.getElementById("addStep");
+
+        // 1. Setup listeners for the ADD buttons
+        addIngredientBtn.addEventListener("click", () => {
+          ingredientsList.appendChild(createIngredientItem());
+        });
+
+        addStepBtn.addEventListener("click", () => {
+          stepsList.appendChild(createStepItem());
+        });
+
+        // 2. Setup listeners for the initial DELETE buttons
+        document
+          .querySelectorAll(".delete-ingredient, .delete-step")
+          .forEach((button) => {
+            setupDeleteListener(button);
+          });
+
+        // Ensure steps are indexed on load
+        reindexSteps();
+      });
+    </script>
+  </body>
+</html>
